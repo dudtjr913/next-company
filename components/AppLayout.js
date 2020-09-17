@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 import { Menu, Input, Row, Col } from "antd";
 import {
@@ -7,12 +7,16 @@ import {
   ProfileOutlined,
 } from "@ant-design/icons";
 import styled from "styled-components";
+import LinkForm from "./LinkForm";
+import LoginForm from "./LoginForm";
+import Profile from "./Profile";
 
 const InputLayout = styled(Input.Search)`
   vertical-align: middle;
 `;
 
 const AppLayout = ({ children }) => {
+  const [login, setLogin] = useState(false);
   return (
     <>
       <Menu mode="horizontal">
@@ -37,13 +41,17 @@ const AppLayout = ({ children }) => {
       </Menu>
       <Row>
         <Col xs={24} md={6}>
-          왼쪽 메뉴
+          {login ? (
+            <Profile login={setLogin} />
+          ) : (
+            <LoginForm login={setLogin} />
+          )}
         </Col>
         <Col xs={24} md={12}>
           {children}
         </Col>
         <Col xs={24} md={6}>
-          오른쪽 메뉴
+          <LinkForm />
         </Col>
       </Row>
     </>
