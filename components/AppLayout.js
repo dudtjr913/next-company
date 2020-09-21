@@ -1,22 +1,24 @@
-import React, { useState } from "react";
-import Link from "next/link";
-import { Menu, Input, Row, Col } from "antd";
+import React from 'react';
+import PropTypes from 'prop-types';
+import Link from 'next/link';
+import { Menu, Input, Row, Col } from 'antd';
 import {
   HomeOutlined,
   AntDesignOutlined,
   ProfileOutlined,
-} from "@ant-design/icons";
-import styled from "styled-components";
-import LinkForm from "./LinkForm";
-import LoginForm from "./LoginForm";
-import Profile from "./Profile";
+} from '@ant-design/icons';
+import { useSelector } from 'react-redux';
+import styled from 'styled-components';
+import LinkForm from './LinkForm';
+import LoginForm from './LoginForm';
+import Profile from './Profile';
 
 const InputLayout = styled(Input.Search)`
   vertical-align: middle;
 `;
 
 const AppLayout = ({ children }) => {
-  const [login, setLogin] = useState(false);
+  const { login } = useSelector((state) => state.user);
   return (
     <>
       <Menu mode="horizontal">
@@ -41,11 +43,7 @@ const AppLayout = ({ children }) => {
       </Menu>
       <Row>
         <Col xs={24} md={6}>
-          {login ? (
-            <Profile login={setLogin} />
-          ) : (
-            <LoginForm login={setLogin} />
-          )}
+          {login ? <Profile /> : <LoginForm />}
         </Col>
         <Col xs={24} md={12}>
           {children}
@@ -56,6 +54,10 @@ const AppLayout = ({ children }) => {
       </Row>
     </>
   );
+};
+
+AppLayout.propTypes = {
+  children: PropTypes.node.isRequired,
 };
 
 export default AppLayout;

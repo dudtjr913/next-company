@@ -1,13 +1,17 @@
-import React, { useState, useCallback, useEffect } from "react";
-import { Form, Input, Button, Checkbox } from "antd";
-import { UserOutlined, LockOutlined } from "@ant-design/icons";
+import React, { useState, useCallback } from 'react';
+import { Form, Input, Button, Checkbox } from 'antd';
+import { UserOutlined, LockOutlined } from '@ant-design/icons';
+import Link from 'next/link';
+import { useDispatch } from 'react-redux';
+import { loginSuccess } from '../reducers';
 
-const LoginForm = ({ login }) => {
-  const [id, setId] = useState("");
-  const [password, setPassword] = useState("");
+const LoginForm = () => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const dispatch = useDispatch();
 
   const handleOnId = useCallback((e) => {
-    setId(e.target.value);
+    setEmail(e.target.value);
   }, []);
 
   const handleOnPassword = useCallback((e) => {
@@ -15,10 +19,10 @@ const LoginForm = ({ login }) => {
   }, []);
 
   const handleOnSubmit = useCallback(() => {
-    setId("");
-    setPassword("");
-    login(true);
-  }, [id, password]);
+    setEmail('');
+    setPassword('');
+    dispatch(loginSuccess);
+  }, [email, password]);
 
   return (
     <>
@@ -26,19 +30,20 @@ const LoginForm = ({ login }) => {
         name="login-form"
         className="login-form"
         onFinish={handleOnSubmit}
-        style={{ maxWidth: "300px", marginTop: "10px", marginLeft: "10px" }}
+        style={{ maxWidth: '300px', marginTop: '10px', marginLeft: '10px' }}
       >
         <Input
           prefix={<UserOutlined />}
-          style={{ marginBottom: "12px" }}
-          value={id}
+          style={{ marginBottom: '12px' }}
+          value={email}
+          type="email"
           onChange={handleOnId}
           placeholder="아이디"
           required
         />
         <Input
           prefix={<LockOutlined />}
-          style={{ marginBottom: "12px" }}
+          style={{ marginBottom: '12px' }}
           value={password}
           onChange={handleOnPassword}
           type="password"
@@ -49,7 +54,7 @@ const LoginForm = ({ login }) => {
           <Form.Item name="remember" noStyle valuePropName="checked">
             <Checkbox>로그인 유지</Checkbox>
           </Form.Item>
-          <a style={{ float: "right" }} href="" className="password-forgot">
+          <a style={{ float: 'right' }} href="" className="password-forgot">
             비밀번호를 잊으셨나요?
           </a>
         </Form.Item>
@@ -58,12 +63,15 @@ const LoginForm = ({ login }) => {
             type="primary"
             htmlType="submit"
             className="login-button"
-            style={{ width: "100%", marginTop: "12px" }}
+            style={{ width: '100%', marginTop: '12px' }}
           >
             로그인
           </Button>
           <div>
-            또는 <a href="../pages/signup.js">회원가입</a>
+            또는{' '}
+            <Link href="/signup">
+              <a>회원가입</a>
+            </Link>
           </div>
         </Form.Item>
       </Form>

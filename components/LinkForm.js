@@ -1,11 +1,9 @@
-import React from "react";
+import React from 'react';
 
-const LinkForm = () => {
-  return (
-    <a href="https://www.google.com" target="_blank">
-      Google
-    </a>
-  );
-};
+const LinkForm = () => (
+  <a href="https://www.google.com" target="_blank" rel="noreferrer">
+    Google
+  </a>
+);
 
 export default LinkForm;

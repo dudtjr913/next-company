@@ -1,12 +1,14 @@
-import React, { useCallback } from "react";
-import { Card, Avatar, Button } from "antd";
+import React, { useCallback } from 'react';
+import { Card, Avatar, Button } from 'antd';
 import {
   UserOutlined,
   HomeOutlined,
   SettingOutlined,
   EditOutlined,
-} from "@ant-design/icons";
-import styled from "styled-components";
+} from '@ant-design/icons';
+import styled from 'styled-components';
+import { useDispatch } from 'react-redux';
+import { loginFailure } from '../reducers';
 
 const ButtonWrapper = styled(Button)`
   float: right;
@@ -16,9 +18,10 @@ const ButtonWrapper = styled(Button)`
   border: none;
 `;
 
-const Profile = ({ login }) => {
+const Profile = () => {
+  const dispatch = useDispatch();
   const handleOnLogout = useCallback(() => {
-    login(false);
+    dispatch(loginFailure);
   }, []);
   return (
     <>

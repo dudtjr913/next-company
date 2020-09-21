@@ -1,12 +1,13 @@
-import React from "react";
+import React from 'react';
 
-import AppLayout from "../components/AppLayout";
+import AppLayout from '../components/AppLayout';
+import SignUpForm from '../components/SignUpForm';
 
 const signUp = () => {
   return (
     <div>
       <AppLayout>
-        <div>회원가입 페이지</div>
+        <SignUpForm />
       </AppLayout>
     </div>
   );
