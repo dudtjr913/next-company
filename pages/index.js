@@ -1,9 +1,12 @@
 import React from 'react';
 import Head from 'next/head';
+import { useSelector } from 'react-redux';
 
 import AppLayout from '../components/AppLayout';
+import PostForm from '../components/PostForm';
 
 const Home = () => {
+  const { login } = useSelector((state) => state.user);
   return (
     <div>
       <Head>
@@ -12,7 +15,8 @@ const Home = () => {
         <title>Next Practice</title>
       </Head>
       <AppLayout>
-        <div>Hello</div>
+        {login && <PostForm />}
+        {/*<PostCard/>*/}
       </AppLayout>
     </div>
   );
