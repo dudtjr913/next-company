@@ -3,15 +3,15 @@ import { Form, Input, Button, Checkbox } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import Link from 'next/link';
 import { useDispatch } from 'react-redux';
-import { loginSuccess } from '../reducers';
+import { loginSuccess } from '../reducers/user';
 
 const LoginForm = () => {
-  const [email, setEmail] = useState('');
+  const [id, setId] = useState('');
   const [password, setPassword] = useState('');
   const dispatch = useDispatch();
 
   const handleOnId = useCallback((e) => {
-    setEmail(e.target.value);
+    setId(e.target.value);
   }, []);
 
   const handleOnPassword = useCallback((e) => {
@@ -19,10 +19,10 @@ const LoginForm = () => {
   }, []);
 
   const handleOnSubmit = useCallback(() => {
-    setEmail('');
+    setId('');
     setPassword('');
-    dispatch(loginSuccess);
-  }, [email, password]);
+    dispatch(loginSuccess({ Id: id }));
+  }, [id, password]);
 
   return (
     <>
@@ -35,8 +35,7 @@ const LoginForm = () => {
         <Input
           prefix={<UserOutlined />}
           style={{ marginBottom: '12px' }}
-          value={email}
-          type="email"
+          value={id}
           onChange={handleOnId}
           placeholder="아이디"
           required

@@ -8,7 +8,7 @@ import {
 } from '@ant-design/icons';
 import styled from 'styled-components';
 import { useDispatch } from 'react-redux';
-import { loginFailure } from '../reducers';
+import { loginFailure } from '../reducers/user';
 
 const ButtonWrapper = styled(Button)`
   float: right;
@@ -26,6 +26,7 @@ const Profile = () => {
   return (
     <>
       <Card
+        style={{ marginTop: '10px' }}
         cover={
           <img
             src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"

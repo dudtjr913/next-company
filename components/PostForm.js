@@ -18,10 +18,11 @@ const PostForm = () => {
 
   return (
     <Form
+      form={form}
       style={{ margin: '10px auto', width: '95%' }}
       onFinish={(v) => postUpload(v.post)}
     >
-      <Form.Item name="post" initialValue="" noStyle>
+      <Form.Item name="post" noStyle>
         <Input.TextArea rows={4} />
       </Form.Item>
       <input ref={inputRef} type="file" multiple hidden />

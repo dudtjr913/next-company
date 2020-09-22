@@ -21,7 +21,7 @@ const LoginEditForm = () => {
           textAlign: 'center',
           padding: '15px',
           display: 'flex',
-          margin: '0 auto',
+          margin: '10px auto',
         }}
         onFinish={handleOnSubmit}
       >
