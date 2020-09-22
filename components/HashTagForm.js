@@ -6,10 +6,10 @@ const HashTagForm = ({ content }) => {
   return (
     <div>
       <span>
-        {content.split(/(#.[^#\s]+)/g).map((v) => {
+        {content.split(/(#.[^#\s]+)/g).map((v, i) => {
           if (v.match(/(#.[^#\s]+)/)) {
             return (
-              <Link href={`/hashtag/${v.slice(1)}`}>
+              <Link key={i} href={`/hashtag/${v.slice(1)}`}>
                 <a>{v}</a>
               </Link>
             );
