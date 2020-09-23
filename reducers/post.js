@@ -57,6 +57,7 @@ const initialState = {
 };
 
 const UPLOAD_POST = 'UPLOAD_POST';
+const UPLOAD_COMMENT = 'UPLOAD_COMMENT';
 
 export const dummyData = (data) => ({
   type: UPLOAD_POST,
@@ -77,12 +78,30 @@ export const dummyData = (data) => ({
   },
 });
 
+export const dummyComment = (data) => ({
+  type: UPLOAD_COMMENT,
+  data: {
+    id: shortId.generate(),
+    Id: data.Id,
+    nickname: data.nickname,
+    content: data.content,
+  },
+});
+
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case UPLOAD_POST:
       return {
         ...state,
         mainPosts: [action.data, ...state.mainPosts],
+      };
+    case UPLOAD_COMMENT:
+      return {
+        ...state,
+        mainPosts: {
+          ...state.mainPosts,
+          Comments: [action.data, ...state.mainPosts.Comments],
+        },
       };
     default:
       return state;

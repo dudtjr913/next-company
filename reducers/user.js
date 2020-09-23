@@ -1,3 +1,5 @@
+import faker from 'faker';
+
 const initialState = {
   user: {
     me: null, // 유저 정보
@@ -11,7 +13,10 @@ const initialState = {
 
 export const loginSuccess = (data) => ({
   type: 'LOG_IN_SUCCESS',
-  data,
+  data: {
+    Id: data.Id,
+    nickname: faker.name.findName(),
+  },
 });
 
 export const loginFailure = {
@@ -35,6 +40,7 @@ const reducer = (state = initialState, action) => {
         user: {
           ...state.user,
           logIn: false,
+          me: null,
         },
       };
     default:

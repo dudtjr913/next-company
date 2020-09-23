@@ -12,6 +12,7 @@ import { useSelector } from 'react-redux';
 import HashTagForm from './HashTagForm';
 import ImageForm from './ImageForm';
 import CommentForm from './CommentForm';
+import Comments from './Comments';
 
 const PostCard = ({ post }) => {
   const [liked, setLiked] = useState(false);
@@ -63,7 +64,8 @@ const PostCard = ({ post }) => {
           description={<HashTagForm content={post.content} />}
         />
       </Card>
-      {comment && <CommentForm />}
+      {comment && me && <CommentForm />}
+      {comment && <Comments comment={post.Comments} />}
     </>
   );
 };

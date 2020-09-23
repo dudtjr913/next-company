@@ -1,73 +1,49 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useState, useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import Slider from 'react-slick';
-import { Button } from 'antd';
-import { createGlobalStyle } from 'styled-components';
 import { CloseOutlined } from '@ant-design/icons';
-
-const GlobalStyle = createGlobalStyle`
-  .slick-slide{
-    display:inline-block;
-  }
-
-  .ant-card-bordered .ant-card-cover{
-    transform : none;
-  }
-`;
+import {
+  ZoomOnWrapper,
+  HeaderWrapper,
+  ButtonWrapper,
+  SliderWrapper,
+  GlobalStyle,
+  PagesWrapper,
+} from './styles';
 
 const ZoomOnForm = ({ images, setZoom }) => {
+  const buttonRef = useRef();
   const [page, setPage] = useState(1);
   const HandleOnClose = useCallback(() => {
     setZoom(false);
   }, []);
 
+  useEffect(() => {
+    buttonRef.current.focus();
+  }, []);
+
+  const handleOnFocus = useCallback(() => {
+    buttonRef.current.focus();
+  }, [buttonRef.current]);
+
   return (
-    <div
-      style={{
-        position: 'fixed',
-        left: 0,
-        top: 0,
-        right: 0,
-        bottom: 0,
-        zIndex: '3000',
-        textAlign: 'center',
-      }}
-    >
+    <ZoomOnWrapper onMouseOut={handleOnFocus}>
       <GlobalStyle />
-      <header
-        style={{
-          position: 'relative',
-          width: '100%',
-          height: '70px',
-          display: 'flex',
-          alignItems: 'center',
-          flexDirection: 'center',
-          backgroundColor: 'white',
-          fontSize: '20px',
-          userSelect: 'none',
-        }}
-      >
-        <div style={{ width: '100%' }}>상세 이미지</div>
-        <Button
-          style={{
-            float: 'right',
-            border: 'none',
-            zIndex: '3500',
+      <HeaderWrapper>
+        <div>상세 이미지</div>
+        <ButtonWrapper
+          ref={buttonRef}
+          onKeyDown={(v) => {
+            if (v.key === 'Escape') {
+              setZoom(false);
+            }
           }}
           onClick={HandleOnClose}
         >
-          <CloseOutlined style={{ fontSize: '25px' }} />
-        </Button>
-      </header>
-      <div
-        style={{
-          backgroundColor: '#191e0c',
-          height: 'calc(100% - 70px)',
-          display: 'flex',
-          flexDirection: 'column',
-          placeContent: 'center',
-        }}
-      >
+          <CloseOutlined className="closeBtn" />
+        </ButtonWrapper>
+      </HeaderWrapper>
+      <SliderWrapper>
         <Slider
           infinite
           arrows={false}
@@ -79,19 +55,9 @@ const ZoomOnForm = ({ images, setZoom }) => {
             </div>
           ))}
         </Slider>
-        <div
-          style={{
-            color: 'white',
-            position: 'absolute',
-            bottom: '35px',
-            width: '100%',
-            fontSize: '20px',
-          }}
-        >
-          {`${page} / ${images.length}`}{' '}
-        </div>
-      </div>
-    </div>
+        <PagesWrapper>{`${page} / ${images.length}`}</PagesWrapper>
+      </SliderWrapper>
+    </ZoomOnWrapper>
   );
 };
 
