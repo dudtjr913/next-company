@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
 import Slider from 'react-slick';
 import { Button } from 'antd';
@@ -7,9 +7,7 @@ import { CloseOutlined } from '@ant-design/icons';
 
 const GlobalStyle = createGlobalStyle`
   .slick-slide{
-    display:flex;
-    width: 500px;
-    height : 250px;
+    display:inline-block;
   }
 
   .ant-card-bordered .ant-card-cover{
@@ -18,6 +16,7 @@ const GlobalStyle = createGlobalStyle`
 `;
 
 const ZoomOnForm = ({ images, setZoom }) => {
+  const [page, setPage] = useState(1);
   const HandleOnClose = useCallback(() => {
     setZoom(false);
   }, []);
@@ -30,7 +29,6 @@ const ZoomOnForm = ({ images, setZoom }) => {
         top: 0,
         right: 0,
         bottom: 0,
-        backgroundColor: 'black',
         zIndex: '3000',
         textAlign: 'center',
       }}
@@ -38,7 +36,7 @@ const ZoomOnForm = ({ images, setZoom }) => {
       <GlobalStyle />
       <header
         style={{
-          position: 'absolute',
+          position: 'relative',
           width: '100%',
           height: '70px',
           display: 'flex',
@@ -46,6 +44,7 @@ const ZoomOnForm = ({ images, setZoom }) => {
           flexDirection: 'center',
           backgroundColor: 'white',
           fontSize: '20px',
+          userSelect: 'none',
         }}
       >
         <div style={{ width: '100%' }}>상세 이미지</div>
@@ -60,11 +59,38 @@ const ZoomOnForm = ({ images, setZoom }) => {
           <CloseOutlined style={{ fontSize: '25px' }} />
         </Button>
       </header>
-      <Slider>
-        {images.map((v) => (
-          <img src={v.src} alt={v.src} key={v.id} />
-        ))}
-      </Slider>
+      <div
+        style={{
+          backgroundColor: '#191e0c',
+          height: 'calc(100% - 70px)',
+          display: 'flex',
+          flexDirection: 'column',
+          placeContent: 'center',
+        }}
+      >
+        <Slider
+          infinite
+          arrows={false}
+          beforeChange={(oldIndex, newIndex) => setPage(newIndex + 1)}
+        >
+          {images.map((v) => (
+            <div key={v.id}>
+              <img style={{ userSelect: 'none' }} src={v.src} alt={v.src} />
+            </div>
+          ))}
+        </Slider>
+        <div
+          style={{
+            color: 'white',
+            position: 'absolute',
+            bottom: '35px',
+            width: '100%',
+            fontSize: '20px',
+          }}
+        >
+          {`${page} / ${images.length}`}{' '}
+        </div>
+      </div>
     </div>
   );
 };

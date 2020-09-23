@@ -4,7 +4,7 @@ import shortId from 'shortid';
 const initialState = {
   mainPosts: [
     {
-      id: shortId.generate(),
+      id: 1,
       User: {
         Id: 'dudtjr913',
         nickname: '영석',
@@ -12,52 +12,78 @@ const initialState = {
       content: '과연 이게 #될까? ##모르겠다##성공해보자',
       Images: [
         {
-          id: shortId.generate(),
-          src: faker.image.image(),
+          id: '11',
+          src: 'http://placeimg.com/640/480/technics',
         },
         {
-          id: shortId.generate(),
-          src: faker.image.image(),
+          id: '12',
+          src: 'http://placeimg.com/640/480/cats',
         },
         {
-          id: shortId.generate(),
-          src: faker.image.image(),
+          id: '13',
+          src: 'http://placeimg.com/640/480/people',
         },
         {
-          id: shortId.generate(),
-          src: faker.image.image(),
+          id: '14',
+          src: 'http://placeimg.com/640/480/nightlife',
         },
         {
-          id: shortId.generate(),
-          src: faker.image.image(),
+          id: '15',
+          src: 'http://placeimg.com/640/480/fashion',
         },
       ],
       Comments: [
         {
-          id: shortId.generate(),
-          Id: faker.name.findName(),
-          nickname: faker.name.firstName(),
-          content: faker.lorem.sentence(),
+          id: 'dudtjr913',
+          Id: 'dudtjr913',
+          nickname: '영석',
+          content: '이거 재밌네',
         },
         {
-          id: shortId.generate(),
-          Id: faker.name.findName(),
-          nickname: faker.name.firstName(),
-          content: faker.lorem.sentence(),
+          id: 'hybam318',
+          Id: 'hybam318',
+          nickname: '히밤',
+          content: '나는 히밤입니다',
         },
         {
-          id: shortId.generate(),
-          Id: faker.name.findName(),
-          nickname: faker.name.firstName(),
-          content: faker.lorem.sentence(),
+          id: 'seulgi',
+          Id: 'seulgi',
+          nickname: '슬갸',
+          content: '잘만들었네',
         },
       ],
     },
   ],
 };
 
+const UPLOAD_POST = 'UPLOAD_POST';
+
+export const dummyData = (data) => ({
+  type: UPLOAD_POST,
+  data: {
+    id: shortId.generate(),
+    User: {
+      Id: data.Id,
+      nickname: faker.name.findName(),
+    },
+    content: data.content,
+    Images: [
+      {
+        src: faker.image.image(),
+        id: shortId.generate(),
+      },
+    ],
+    Comments: [],
+  },
+});
+
 const reducer = (state = initialState, action) => {
   switch (action.type) {
+    case UPLOAD_POST:
+      return {
+        ...state,
+        mainPosts: [action.data, ...state.mainPosts],
+      };
     default:
       return state;
   }

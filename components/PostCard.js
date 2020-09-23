@@ -11,52 +11,60 @@ import {
 import { useSelector } from 'react-redux';
 import HashTagForm from './HashTagForm';
 import ImageForm from './ImageForm';
+import CommentForm from './CommentForm';
 
 const PostCard = ({ post }) => {
   const [liked, setLiked] = useState(false);
+  const [comment, setComment] = useState(false);
   const { me } = useSelector((state) => state.user.user);
   const Id = me?.Id;
+  const handleOnComment = useCallback(() => {
+    setComment((prev) => !prev);
+  }, []);
   const handleOnLiked = useCallback(() => {
     setLiked((prev) => !prev);
   }, []);
   return (
-    <Card
-      style={{ width: '95%', margin: '10px auto' }}
-      cover={post.Images[0] && <ImageForm images={post.Images} />}
-      actions={[
-        liked ? (
-          <HeartTwoTone twoToneColor="#eb2f96" onClick={handleOnLiked} />
-        ) : (
-          <HeartOutlined onClick={handleOnLiked} />
-        ),
-        <CommentOutlined />,
-        <SettingOutlined />,
-        <Tooltip
-          color="none"
-          title={
-            <Button.Group>
-              {Id && Id === post.User.Id ? (
-                <>
-                  <Button>수정</Button>
-                  <Button danger>삭제</Button>
-                </>
-              ) : (
-                <Button type="primary" danger>
-                  신고
-                </Button>
-              )}
-            </Button.Group>
-          }
-        >
-          <EllipsisOutlined />
-        </Tooltip>,
-      ]}
-    >
-      <Card.Meta
-        title={post.content.slice(0, 6)}
-        description={<HashTagForm content={post.content} />}
-      />
-    </Card>
+    <>
+      <Card
+        style={{ width: '95%', margin: '10px auto' }}
+        cover={post.Images[0] && <ImageForm images={post.Images} />}
+        actions={[
+          liked ? (
+            <HeartTwoTone twoToneColor="#eb2f96" onClick={handleOnLiked} />
+          ) : (
+            <HeartOutlined onClick={handleOnLiked} />
+          ),
+          <CommentOutlined onClick={handleOnComment} />,
+          <SettingOutlined />,
+          <Tooltip
+            color="none"
+            title={
+              <Button.Group>
+                {Id && Id === post.User.Id ? (
+                  <>
+                    <Button>수정</Button>
+                    <Button danger>삭제</Button>
+                  </>
+                ) : (
+                  <Button type="primary" danger>
+                    신고
+                  </Button>
+                )}
+              </Button.Group>
+            }
+          >
+            <EllipsisOutlined />
+          </Tooltip>,
+        ]}
+      >
+        <Card.Meta
+          title={post.content.slice(0, 6)}
+          description={<HashTagForm content={post.content} />}
+        />
+      </Card>
+      {comment && <CommentForm />}
+    </>
   );
 };
 

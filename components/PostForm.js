@@ -1,16 +1,20 @@
 import React, { useCallback, useRef } from 'react';
 import { Input, Form, Button } from 'antd';
+import { useDispatch, useSelector } from 'react-redux';
+import { dummyData } from '../reducers/post';
 
 const PostForm = () => {
   const inputRef = useRef();
   const [form] = Form.useForm();
+  const { Id } = useSelector((state) => state.user.user.me);
+  const dispatch = useDispatch();
 
   const imageUpload = useCallback(() => {
     inputRef.current.click();
   }, []);
 
   const postUpload = useCallback((v) => {
-    console.log(v);
+    dispatch(dummyData({ Id, content: v }));
     form.setFieldsValue({
       post: '',
     });

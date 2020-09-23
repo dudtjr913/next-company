@@ -9,6 +9,7 @@ import PostCard from '../components/PostCard';
 const Home = () => {
   const { logIn } = useSelector((state) => state.user.user);
   const { mainPosts } = useSelector((state) => state.post);
+
   return (
     <div>
       <Head>

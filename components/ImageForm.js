@@ -13,7 +13,7 @@ const ImageForm = ({ images }) => {
       <>
         {zoom && <ZoomOnForm images={images} setZoom={setZoom} />}
         <img
-          style={{ width: '100%', maxHeight: '250px' }}
+          style={{ width: '70%', maxHeight: '250px' }}
           src={images[0].src}
           alt={images[0].src}
           onClick={handleOnZoom}
