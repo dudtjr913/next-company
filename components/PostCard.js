@@ -64,7 +64,7 @@ const PostCard = ({ post }) => {
           description={<HashTagForm content={post.content} />}
         />
       </Card>
-      {comment && me && <CommentForm />}
+      {comment && me && <CommentForm postId={post.id} />}
       {comment && <Comments comment={post.Comments} />}
     </>
   );

@@ -81,6 +81,7 @@ export const dummyData = (data) => ({
 export const dummyComment = (data) => ({
   type: UPLOAD_COMMENT,
   data: {
+    postId: data.postId,
     id: shortId.generate(),
     Id: data.Id,
     nickname: data.nickname,
@@ -95,14 +96,27 @@ const reducer = (state = initialState, action) => {
         ...state,
         mainPosts: [action.data, ...state.mainPosts],
       };
-    case UPLOAD_COMMENT:
+    case UPLOAD_COMMENT: {
+      const post = [...state.mainPosts];
+      const postIndex = post.findIndex((v) => v.id === action.data.postId);
+      const comment = [...post[postIndex].Comments];
+      post[postIndex] = {
+        ...post[postIndex],
+        Comments: [
+          ...comment,
+          {
+            id: action.data.id,
+            Id: action.data.Id,
+            nickname: action.data.nickname,
+            content: action.data.content,
+          },
+        ],
+      };
       return {
         ...state,
-        mainPosts: {
-          ...state.mainPosts,
-          Comments: [action.data, ...state.mainPosts.Comments],
-        },
+        mainPosts: post,
       };
+    }
     default:
       return state;
   }

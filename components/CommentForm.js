@@ -1,9 +1,10 @@
 import React, { useCallback, useState } from 'react';
 import { Form, Input, Button } from 'antd';
+import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
-import { dummyComment, UPLOAD_COMMENT } from '../reducers/post';
+import { dummyComment } from '../reducers/post';
 
-const CommentForm = () => {
+const CommentForm = ({ postId }) => {
   const { Id, nickname } = useSelector((state) => state.user.user.me);
   const [text, setText] = useState('');
   const dispatch = useDispatch();
@@ -13,13 +14,14 @@ const CommentForm = () => {
   const handleOnSubmit = useCallback(() => {
     dispatch(
       dummyComment({
+        postId,
         Id,
         nickname,
         content: text,
       }),
     );
     setText('');
-  }, [text]);
+  }, [text, Id, nickname, postId]);
   return (
     <Form onFinish={handleOnSubmit} style={{ width: '95%', margin: '0 auto' }}>
       <Input.TextArea value={text} onChange={handleOnText} row={2} />
@@ -28,6 +30,10 @@ const CommentForm = () => {
       </Button>
     </Form>
   );
+};
+
+CommentForm.propTypes = {
+  postId: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
 };
 
 export default CommentForm;
