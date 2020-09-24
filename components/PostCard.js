@@ -17,7 +17,7 @@ import Comments from './Comments';
 const PostCard = ({ post }) => {
   const [liked, setLiked] = useState(false);
   const [comment, setComment] = useState(false);
-  const { me } = useSelector((state) => state.user.user);
+  const { me } = useSelector((state) => state.user);
   const Id = me?.Id;
   const handleOnComment = useCallback(() => {
     setComment((prev) => !prev);

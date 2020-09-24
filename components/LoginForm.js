@@ -2,13 +2,14 @@ import React, { useState, useCallback } from 'react';
 import { Form, Input, Button, Checkbox } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import Link from 'next/link';
-import { useDispatch } from 'react-redux';
-import { loginSuccess } from '../reducers/user';
+import { useDispatch, useSelector } from 'react-redux';
+import { LOG_IN_REQUEST } from '../reducers/user';
 
 const LoginForm = () => {
   const [id, setId] = useState('');
   const [password, setPassword] = useState('');
   const dispatch = useDispatch();
+  const { logInLoading } = useSelector((state) => state.user);
 
   const handleOnId = useCallback((e) => {
     setId(e.target.value);
@@ -21,7 +22,10 @@ const LoginForm = () => {
   const handleOnSubmit = useCallback(() => {
     setId('');
     setPassword('');
-    dispatch(loginSuccess({ Id: id }));
+    dispatch({
+      type: LOG_IN_REQUEST,
+      data: id,
+    });
   }, [id, password]);
 
   return (
@@ -59,6 +63,7 @@ const LoginForm = () => {
         </Form.Item>
         <Form.Item>
           <Button
+            loading={logInLoading}
             type="primary"
             htmlType="submit"
             className="login-button"

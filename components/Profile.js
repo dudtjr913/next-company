@@ -7,8 +7,8 @@ import {
   EditOutlined,
 } from '@ant-design/icons';
 import styled from 'styled-components';
-import { useDispatch } from 'react-redux';
-import { loginFailure } from '../reducers/user';
+import { useDispatch, useSelector } from 'react-redux';
+import { LOG_OUT_REQUEST } from '../reducers/user';
 
 const ButtonWrapper = styled(Button)`
   float: right;
@@ -20,8 +20,11 @@ const ButtonWrapper = styled(Button)`
 
 const Profile = () => {
   const dispatch = useDispatch();
+  const { logOutLoading } = useSelector((state) => state.user);
   const handleOnLogout = useCallback(() => {
-    dispatch(loginFailure);
+    dispatch({
+      type: LOG_OUT_REQUEST,
+    });
   }, []);
   return (
     <>
@@ -40,7 +43,9 @@ const Profile = () => {
           title="사용자 이름"
           description="각종 정보"
         />
-        <ButtonWrapper onClick={handleOnLogout}>로그아웃</ButtonWrapper>
+        <ButtonWrapper loading={logOutLoading} onClick={handleOnLogout}>
+          로그아웃
+        </ButtonWrapper>
       </Card>
     </>
   );

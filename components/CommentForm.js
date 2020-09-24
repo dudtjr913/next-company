@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { dummyComment } from '../reducers/post';
 
 const CommentForm = ({ postId }) => {
-  const { Id, nickname } = useSelector((state) => state.user.user.me);
+  const { Id, nickname } = useSelector((state) => state.user.me);
   const [text, setText] = useState('');
   const dispatch = useDispatch();
   const handleOnText = useCallback((e) => {

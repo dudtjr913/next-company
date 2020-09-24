@@ -6,7 +6,7 @@ import { dummyData } from '../reducers/post';
 const PostForm = () => {
   const inputRef = useRef();
   const [form] = Form.useForm();
-  const { Id } = useSelector((state) => state.user.user.me);
+  const { Id } = useSelector((state) => state.user.me);
   const dispatch = useDispatch();
 
   const imageUpload = useCallback(() => {

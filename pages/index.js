@@ -7,7 +7,7 @@ import PostForm from '../components/PostForm';
 import PostCard from '../components/PostCard';
 
 const Home = () => {
-  const { logIn } = useSelector((state) => state.user.user);
+  const { logInDone } = useSelector((state) => state.user);
   const { mainPosts } = useSelector((state) => state.post);
 
   return (
@@ -18,7 +18,7 @@ const Home = () => {
         <title>Next Practice</title>
       </Head>
       <AppLayout>
-        {logIn && <PostForm />}
+        {logInDone && <PostForm />}
         {mainPosts.map((v) => (
           <PostCard key={v.id} post={v} />
         ))}
