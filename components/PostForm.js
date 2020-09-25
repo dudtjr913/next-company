@@ -1,12 +1,13 @@
 import React, { useCallback, useRef } from 'react';
 import { Input, Form, Button } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
-import { dummyData } from '../reducers/post';
+import { UPLOAD_POST_REQUEST } from '../reducers/post';
 
 const PostForm = () => {
   const inputRef = useRef();
   const [form] = Form.useForm();
   const { Id } = useSelector((state) => state.user.me);
+  const { uploadPostLoading } = useSelector((state) => state.post);
   const dispatch = useDispatch();
 
   const imageUpload = useCallback(() => {
@@ -14,7 +15,13 @@ const PostForm = () => {
   }, []);
 
   const postUpload = useCallback((v) => {
-    dispatch(dummyData({ Id, content: v }));
+    if (v === '') {
+      return;
+    }
+    dispatch({
+      type: UPLOAD_POST_REQUEST,
+      data: { Id, content: v },
+    });
     form.setFieldsValue({
       post: '',
     });
@@ -31,7 +38,12 @@ const PostForm = () => {
       </Form.Item>
       <input ref={inputRef} type="file" multiple hidden />
       <Button onClick={imageUpload}>이미지 업로드</Button>
-      <Button htmlType="submit" type="primary" style={{ float: 'right' }}>
+      <Button
+        loading={uploadPostLoading}
+        htmlType="submit"
+        type="primary"
+        style={{ float: 'right' }}
+      >
         올리기
       </Button>
     </Form>

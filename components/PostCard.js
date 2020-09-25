@@ -8,13 +8,15 @@ import {
   SettingOutlined,
   EllipsisOutlined,
 } from '@ant-design/icons';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import HashTagForm from './HashTagForm';
 import ImageForm from './ImageForm';
 import CommentForm from './CommentForm';
 import Comments from './Comments';
+import { REMOVE_POST_REQUEST } from '../reducers/post';
 
 const PostCard = ({ post }) => {
+  const dispatch = useDispatch();
   const [liked, setLiked] = useState(false);
   const [comment, setComment] = useState(false);
   const { me } = useSelector((state) => state.user);
@@ -24,6 +26,12 @@ const PostCard = ({ post }) => {
   }, []);
   const handleOnLiked = useCallback(() => {
     setLiked((prev) => !prev);
+  }, []);
+  const handleOnRemove = useCallback(() => {
+    dispatch({
+      type: REMOVE_POST_REQUEST,
+      data: post.id,
+    });
   }, []);
   return (
     <>
@@ -45,7 +53,9 @@ const PostCard = ({ post }) => {
                 {Id && Id === post.User.Id ? (
                   <>
                     <Button>수정</Button>
-                    <Button danger>삭제</Button>
+                    <Button danger onClick={handleOnRemove}>
+                      삭제
+                    </Button>
                   </>
                 ) : (
                   <Button type="primary" danger>
