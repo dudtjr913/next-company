@@ -6,7 +6,7 @@ const initialState = {
     {
       id: 1,
       User: {
-        Id: 'dudtjr913',
+        Id: 'bak',
         nickname: '영석',
       },
       content: '과연 이게 #될까? ##모르겠다##성공해보자',
@@ -79,8 +79,8 @@ export const UPLOAD_COMMENT_REQUEST = 'UPLOAD_COMMENT_REQUEST';
 export const UPLOAD_COMMENT_SUCCESS = 'UPLOAD_COMMENT_SUCCESS';
 export const UPLOAD_COMMENT_FAILURE = 'UPLOAD_COMMENT_FAILURE';
 
-const dummyData = (data) => ({
-  id: shortId.generate(),
+export const dummyPost = (data) => ({
+  id: data.id,
   User: {
     Id: data.Id,
     nickname: faker.name.findName(),
@@ -117,7 +117,7 @@ const reducer = (state = initialState, action) => {
         uploadPostLoading: false,
         uploadPostDone: true,
         uploadPostError: false,
-        mainPosts: [dummyData(action.data), ...state.mainPosts],
+        mainPosts: [dummyPost(action.data), ...state.mainPosts],
       };
     case UPLOAD_POST_FAILURE:
       return {

@@ -7,6 +7,7 @@ import {
   LOG_OUT_REQUEST,
   LOG_OUT_SUCCESS,
   LOG_OUT_FAILURE,
+  FOLLOWING_REQUEST,
 } from '../reducers/user';
 
 /* function logInApi(data){
@@ -51,6 +52,26 @@ function* logOut() {
   }
 }
 
+/* function followingApi(data){
+    return axios.post('/api/followingApi', data)
+} */
+
+function* following(action) {
+  try {
+    // const result = yield call(followingApi(action.data));
+    yield delay(1000);
+    yield put({
+      type: FOLLOWING_SUCCESS,
+      data: action.data,
+    });
+  } catch (error) {
+    yield put({
+      type: FOLLOWING_FAILURE,
+      error: error.response.data,
+    });
+  }
+}
+
 function* watchLogIn() {
   yield takeLatest(LOG_IN_REQUEST, logIn);
 }
@@ -59,6 +80,10 @@ function* watchLogOut() {
   yield takeLatest(LOG_OUT_REQUEST, logOut);
 }
 
+function* watchFollowing() {
+  yield takeLatest(FOLLOWING_REQUEST, following);
+}
+
 export default function* saga() {
-  yield all([fork(watchLogIn), fork(watchLogOut)]);
+  yield all([fork(watchLogIn), fork(watchLogOut), fork(watchFollowing)]);
 }

@@ -1,4 +1,5 @@
 import { takeLatest, all, put, fork, delay } from 'redux-saga/effects';
+import faker from 'faker';
 import {
   UPLOAD_POST_REQUEST,
   UPLOAD_POST_SUCCESS,
@@ -10,6 +11,7 @@ import {
   REMOVE_POST_SUCCESS,
   REMOVE_POST_FAILURE,
 } from '../reducers/post';
+import { ADD_TO_ME_POST, REMOVE_OF_ME_POST } from '../reducers/user';
 
 /* function uploadPostApi(data) {
   return axios.post('/api/uploadPostApi', data);
@@ -22,6 +24,13 @@ function* uploadPost(action) {
     yield put({
       type: UPLOAD_POST_SUCCESS,
       data: action.data,
+    });
+    yield put({
+      type: ADD_TO_ME_POST,
+      data: {
+        id: action.data.id,
+        nickname: faker.name.findName(),
+      },
     });
   } catch (err) {
     yield delay(1000);
@@ -64,6 +73,10 @@ function* removePost(action) {
     yield delay(1000);
     yield put({
       type: REMOVE_POST_SUCCESS,
+      data: action.data,
+    });
+    yield put({
+      type: REMOVE_OF_ME_POST,
       data: action.data,
     });
   } catch (err) {

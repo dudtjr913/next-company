@@ -14,12 +14,14 @@ import ImageForm from './ImageForm';
 import CommentForm from './CommentForm';
 import Comments from './Comments';
 import { REMOVE_POST_REQUEST } from '../reducers/post';
+import FollowBtn from './FollowBtn';
 
 const PostCard = ({ post }) => {
   const dispatch = useDispatch();
   const [liked, setLiked] = useState(false);
   const [comment, setComment] = useState(false);
   const { me } = useSelector((state) => state.user);
+  const { removePostLoading } = useSelector((state) => state.post);
   const Id = me?.Id;
   const handleOnComment = useCallback(() => {
     setComment((prev) => !prev);
@@ -53,7 +55,11 @@ const PostCard = ({ post }) => {
                 {Id && Id === post.User.Id ? (
                   <>
                     <Button>수정</Button>
-                    <Button danger onClick={handleOnRemove}>
+                    <Button
+                      loading={removePostLoading}
+                      danger
+                      onClick={handleOnRemove}
+                    >
                       삭제
                     </Button>
                   </>
@@ -70,7 +76,12 @@ const PostCard = ({ post }) => {
         ]}
       >
         <Card.Meta
-          title={post.content.slice(0, 6)}
+          title={
+            <>
+              <span>{post.content.slice(0, 6)}</span>
+              {me && <FollowBtn Id={post.User.Id} />}
+            </>
+          }
           description={<HashTagForm content={post.content} />}
         />
       </Card>

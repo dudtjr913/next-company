@@ -13,7 +13,7 @@ const FollowersForm = ({ followers }) => (
       dataSource={followers}
       renderItem={(item) => (
         <List.Item>
-          <Card title={item.nickname}>{<StopOutlined />}</Card>
+          <Card title={item.id}>{<StopOutlined />}</Card>
         </List.Item>
       )}
       footer={<Button>더 보기</Button>}
@@ -22,12 +22,7 @@ const FollowersForm = ({ followers }) => (
 );
 
 FollowersForm.propTypes = {
-  followers: PropTypes.arrayOf(
-    PropTypes.shape({
-      email: PropTypes.string.isRequired,
-      nickname: PropTypes.string.isRequired,
-    }),
-  ).isRequired,
+  followers: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.string)).isRequired,
 };
 
 export default FollowersForm;

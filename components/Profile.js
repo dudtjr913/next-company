@@ -1,11 +1,6 @@
 import React, { useCallback } from 'react';
 import { Card, Avatar, Button } from 'antd';
-import {
-  UserOutlined,
-  HomeOutlined,
-  SettingOutlined,
-  EditOutlined,
-} from '@ant-design/icons';
+import { UserOutlined } from '@ant-design/icons';
 import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
 import { LOG_OUT_REQUEST } from '../reducers/user';
@@ -14,13 +9,15 @@ const ButtonWrapper = styled(Button)`
   float: right;
   position: absolute;
   right: 0;
-  bottom: 48px;
+  bottom: 69px;
   border: none;
 `;
 
 const Profile = () => {
   const dispatch = useDispatch();
-  const { logOutLoading } = useSelector((state) => state.user);
+  const { logOutLoading, followings, followers, posts } = useSelector(
+    (state) => state.user,
+  );
   const handleOnLogout = useCallback(() => {
     dispatch({
       type: LOG_OUT_REQUEST,
@@ -36,7 +33,20 @@ const Profile = () => {
             alt="profile"
           />
         }
-        actions={[<HomeOutlined />, <SettingOutlined />, <EditOutlined />]}
+        actions={[
+          <div>
+            <div>게시글</div>
+            <div>{posts.length}</div>
+          </div>,
+          <div>
+            <div>팔로워</div>
+            <div>{followers.length}</div>
+          </div>,
+          <div>
+            <div>팔로윙</div>
+            <div>{followings.length}</div>
+          </div>,
+        ]}
       >
         <Card.Meta
           avatar={<Avatar icon={<UserOutlined />} />}

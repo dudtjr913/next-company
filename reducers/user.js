@@ -16,9 +16,15 @@ const initialState = {
   followerDone: false,
   followerError: false,
 
+  posts: [],
   followings: [],
   followers: [],
-  posts: [],
+};
+
+const dummyData = {
+  posts: [{ id: 'yeong', nickname: '영석' }],
+  followings: [{ id: 'bak' }, { id: 'seul' }],
+  followers: [{ id: 'bak' }, { id: 'seul' }],
 };
 
 export const LOG_IN_REQUEST = 'LOG_IN_REQUEST';
@@ -37,6 +43,9 @@ export const FOLLOWER_REQUEST = 'FOLLOWER_REQUEST';
 export const FOLLOWER_SUCCESS = 'FOLLOWER_SUCCESS';
 export const FOLLOWER_FAILURE = 'FOLLOWER_FAILURE';
 
+export const ADD_TO_ME_POST = 'ADD_TO_ME_POST';
+export const REMOVE_OF_ME_POST = 'REMOVE_OF_ME_POST';
+
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case LOG_IN_REQUEST:
@@ -54,6 +63,9 @@ const reducer = (state = initialState, action) => {
         logInError: false,
         logOutDone: false,
         me: action.data,
+        posts: dummyData.posts,
+        followings: dummyData.followings,
+        followers: dummyData.followers,
       };
     case LOG_IN_FAILURE:
       return {
@@ -62,6 +74,9 @@ const reducer = (state = initialState, action) => {
         logInDone: false,
         logInError: true,
         me: null,
+        posts: [],
+        followings: [],
+        followers: [],
       };
     case LOG_OUT_REQUEST:
       return {
@@ -86,6 +101,39 @@ const reducer = (state = initialState, action) => {
         logOutDone: false,
         logOutError: true,
       };
+    case FOLLOWING_REQUEST:
+      return {
+        ...state,
+        followingLoading: true,
+        followingDone: false,
+        followingError: false,
+      };
+    case FOLLOWING_SUCCESS:
+      return {
+        ...state,
+        followingLoading: false,
+        followingDone: true,
+        followingError: false,
+      };
+    case FOLLOWING_FAILURE:
+      return {
+        ...state,
+        followingLoading: false,
+        followingDone: false,
+        followingError: true,
+      };
+    case ADD_TO_ME_POST: {
+      return {
+        ...state,
+        posts: [...state.posts, action.data],
+      };
+    }
+    case REMOVE_OF_ME_POST: {
+      return {
+        ...state,
+        posts: [...state.posts.filter((v) => v.id !== action.data)],
+      };
+    }
     default:
       return state;
   }

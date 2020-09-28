@@ -1,4 +1,5 @@
 import React, { useCallback, useRef } from 'react';
+import shortid from 'shortid';
 import { Input, Form, Button } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { UPLOAD_POST_REQUEST } from '../reducers/post';
@@ -20,7 +21,7 @@ const PostForm = () => {
     }
     dispatch({
       type: UPLOAD_POST_REQUEST,
-      data: { Id, content: v },
+      data: { Id, content: v, id: shortid.generate() },
     });
     form.setFieldsValue({
       post: '',
