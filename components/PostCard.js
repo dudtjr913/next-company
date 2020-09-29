@@ -79,7 +79,7 @@ const PostCard = ({ post }) => {
           title={
             <>
               <span>{post.content.slice(0, 6)}</span>
-              {me && <FollowBtn Id={post.User.Id} />}
+              {me && <FollowBtn postId={post.id} Id={post.User.Id} />}
             </>
           }
           description={<HashTagForm content={post.content} />}

@@ -229,7 +229,7 @@ const reducer = (state = initialState, action) => {
         loadPostDone: true,
         loadPostError: false,
         mainPosts: [...state.mainPosts, ...dummyPost(10)],
-        hasPosts: state.mainPosts.length <= 50,
+        hasPosts: state.mainPosts.length < 50,
       };
     case LOAD_POST_FAILURE:
       return {

@@ -8,7 +8,9 @@ import { LOAD_POST_REQUEST } from '../reducers/post';
 
 const Home = () => {
   const { logInDone } = useSelector((state) => state.user);
-  const { mainPosts, loadPostLoading } = useSelector((state) => state.post);
+  const { mainPosts, loadPostLoading, hasPosts } = useSelector(
+    (state) => state.post,
+  );
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch({
@@ -21,7 +23,7 @@ const Home = () => {
         window.scrollY + document.documentElement.clientHeight >=
         document.documentElement.scrollHeight - 300
       ) {
-        if (!loadPostLoading) {
+        if (!loadPostLoading && hasPosts) {
           dispatch({
             type: LOAD_POST_REQUEST,
           });
