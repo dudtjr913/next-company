@@ -26,7 +26,7 @@ const initialState = {
 };
 
 const dummyData = {
-  posts: [{ Id: 'yeong', nickname: '영석' }],
+  posts: [],
   followings: [{ Id: 'bak' }, { Id: 'seul' }],
   followers: [{ Id: 'bak' }, { Id: 'seul' }],
 };

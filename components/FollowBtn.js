@@ -24,7 +24,8 @@ const FollowBtn = ({ Id }) => {
       [],
     );
   });
-  return me.Id === Id ? null : followings.find((v) => v.Id === Id) ? (
+  const myPost = me.Id === Id;
+  const followText = followings.find((v) => v.Id === Id) ? (
     <Button
       loading={unfollowingLoading}
       onClick={handleOnUnfollowing}
@@ -43,6 +44,7 @@ const FollowBtn = ({ Id }) => {
       팔로우{' '}
     </Button>
   );
+  return myPost ? null : followText;
 };
 
 FollowBtn.propTypes = {

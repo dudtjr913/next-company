@@ -65,6 +65,12 @@ const initialState = {
   removePostLoading: false,
   removePostDone: false,
   removePostError: false,
+
+  loadPostLoading: false,
+  loadPostDone: false,
+  loadPostError: false,
+
+  hasPosts: true,
 };
 
 export const UPLOAD_POST_REQUEST = 'UPLOAD_POST_REQUEST';
@@ -79,7 +85,38 @@ export const UPLOAD_COMMENT_REQUEST = 'UPLOAD_COMMENT_REQUEST';
 export const UPLOAD_COMMENT_SUCCESS = 'UPLOAD_COMMENT_SUCCESS';
 export const UPLOAD_COMMENT_FAILURE = 'UPLOAD_COMMENT_FAILURE';
 
-export const dummyPost = (data) => ({
+export const LOAD_POST_REQUEST = 'LOAD_POST_REQUEST';
+export const LOAD_POST_SUCCESS = 'LOAD_POST_SUCCESS';
+export const LOAD_POST_FAILURE = 'LOAD_POST_FAILURE';
+
+const dummyPost = (number) => {
+  return Array(number)
+    .fill()
+    .map(() => ({
+      id: shortId.generate(),
+      User: {
+        Id: faker.name.findName(),
+        nickname: faker.name.firstName(),
+      },
+      content: faker.lorem.sentence(),
+      Images: [
+        {
+          src: faker.image.image(),
+          id: shortId.generate(),
+        },
+      ],
+      Comments: [
+        {
+          id: shortId.generate(),
+          Id: faker.name.findName(),
+          nickname: faker.name.firstName(),
+          content: faker.lorem.sentence(),
+        },
+      ],
+    }));
+};
+
+const myPost = (data) => ({
   id: data.id,
   User: {
     Id: data.Id,
@@ -117,7 +154,7 @@ const reducer = (state = initialState, action) => {
         uploadPostLoading: false,
         uploadPostDone: true,
         uploadPostError: false,
-        mainPosts: [dummyPost(action.data), ...state.mainPosts],
+        mainPosts: [myPost(action.data), ...state.mainPosts],
       };
     case UPLOAD_POST_FAILURE:
       return {
@@ -177,6 +214,29 @@ const reducer = (state = initialState, action) => {
         uploadCommentLoading: false,
         uploadCommentDone: false,
         uploadCommentError: true,
+      };
+    case LOAD_POST_REQUEST:
+      return {
+        ...state,
+        loadPostLoading: true,
+        loadPostDone: false,
+        loadPostError: false,
+      };
+    case LOAD_POST_SUCCESS:
+      return {
+        ...state,
+        loadPostLoading: false,
+        loadPostDone: true,
+        loadPostError: false,
+        mainPosts: [...state.mainPosts, ...dummyPost(10)],
+        hasPosts: state.mainPosts.length <= 50,
+      };
+    case LOAD_POST_FAILURE:
+      return {
+        ...state,
+        loadPostLoading: false,
+        loadPostDone: false,
+        loadPostError: true,
       };
     default:
       return state;

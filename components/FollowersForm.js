@@ -13,7 +13,7 @@ const FollowersForm = ({ followers }) => (
       dataSource={followers}
       renderItem={(item) => (
         <List.Item>
-          <Card title={item.id}>{<StopOutlined />}</Card>
+          <Card title={item.Id}>{<StopOutlined />}</Card>
         </List.Item>
       )}
       footer={<Button>더 보기</Button>}
