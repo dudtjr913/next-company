@@ -16,6 +16,7 @@ const SignUpForm = () => {
 
   const signUpOnSubmit = useCallback(
     (data) => {
+      console.log(data);
       setUserData(data);
     },
     [userData],
@@ -28,8 +29,8 @@ const SignUpForm = () => {
       wrapperCol={{ span: 10 }}
       onFinish={(data) => signUpOnSubmit(data)}
     >
-      <Form.Item rules={[{ required: true }]} name="email" label="E-mail">
-        <Input type="email" />
+      <Form.Item rules={[{ required: true }]} name="ID" label="ID">
+        <Input />
       </Form.Item>
       <Form.Item name="password" label="Password" rules={[{ required: true }]}>
         <Input.Password />
